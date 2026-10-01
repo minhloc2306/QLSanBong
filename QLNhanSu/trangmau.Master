@@ -1,0 +1,116 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="trangmau.master.cs" Inherits="QLNhanSu.trangmau" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title>Hệ Thống Quản Lý Sân Bóng</title>
+    
+    <!-- 1. LIÊN KẾT FILE STYLE.CSS VÀO ĐÂY -->
+    <link href="Style/style.css" rel="stylesheet" type="text/css" />
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+
+    <style>
+        /* CSS Giao diện chuẩn cho MasterPage */
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+        }
+
+        #header {
+            background-color: #1e293b;
+            padding: 22px 10px;
+            text-align: center;
+            font-size: 26px;
+            color: #38bdf8;
+            font-weight: bold;
+            letter-spacing: 1px;
+            grid-area: header;
+        }
+
+        #nav {
+            background-color: #0f172a;
+            text-align: center;
+            grid-area: nav;
+            padding: 5px 0;
+        }
+
+        #nav a {
+            display: inline-block;
+            text-decoration: none;
+            color: #e2e8f0;
+            padding: 12px 20px;
+            font-weight: 500;
+            font-size: 15px;
+            transition: all 0.2s;
+            border-radius: 4px;
+        }
+
+        #nav a:hover {
+            background-color: #0284c7;
+            color: #ffffff;
+        }
+
+        #content {
+            background-color: #f4f6f9;
+            min-height: 500px; /* Bỏ height cố định 300px để không bị vỡ bảng */
+            padding: 20px;
+            grid-area: content;  
+        }
+
+        #footer {
+            background-color: #1e293b;
+            padding: 15px;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 14px;
+            grid-area: footer;
+        }
+
+        #main_wrapper {
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-areas: 
+                "header" 
+                "nav" 
+                "content" 
+                "footer";
+        }
+    </style>
+</head>
+<body>
+    <div id="main_wrapper">
+        <div id="header">
+            HỆ THỐNG QUẢN LÝ SÂN BÓNG
+        </div>
+        <div id="nav">
+            <a href="Datsan.aspx">Đặt Sân</a>
+            <a href="TtkhachHang.aspx">Thông Tin Khách Hàng</a>
+            <a href="Ttsanbong.aspx">Trạng Thái Sân Bóng</a>
+            <a href="SuaTtsanbong.aspx">Sửa Thông Tin Sân</a>
+        </div>
+        
+        <div id="content">
+            <form id="form1" runat="server">
+                <div>
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                    </asp:ContentPlaceHolder>
+                </div>
+            </form>
+        </div>
+
+        <div id="footer">
+            &copy; <%: DateTime.Now.Year %> Hệ Thống Quản Lý Sân Bóng - All Rights Reserved.
+        </div>
+    </div>
+</body>
+</html>
