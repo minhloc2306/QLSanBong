@@ -2,13 +2,48 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style type="text/css">
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 95%;
+            margin: 15px auto 20px auto;
+        }
         .title-page {
-            text-align: center;
             font-size: 24px;
             font-weight: bold;
             color: #0f172a;
-            margin: 15px 0 20px 0;
             text-transform: uppercase;
+        }
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .txt-search {
+            padding: 7px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+            width: 220px;
+        }
+        .txt-search:focus {
+            border-color: #0284c7;
+            box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.2);
+        }
+        .btn-search {
+            background-color: #0f172a;
+            color: #ffffff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-search:hover {
+            background-color: #1e293b;
         }
         .table-custom {
             width: 95%;
@@ -47,6 +82,7 @@
             text-decoration: none;
             font-weight: 600;
             margin: 0 4px;
+            white-space: nowrap;
         }
         .btn-action:hover {
             text-decoration: underline;
@@ -62,7 +98,16 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="title-page">THÔNG TIN KHÁCH HÀNG ĐẶT SÂN</div>
+    
+    <%-- Thanh Header chứa Tiêu đề bên trái & Tìm kiếm bên phải --%>
+    <div class="header-container">
+        <div></div>
+        <div class="title-page">THÔNG TIN KHÁCH HÀNG ĐẶT SÂN</div>
+        <div class="search-box">
+            <asp:TextBox ID="txtTimKiem" runat="server" CssClass="txt-search" Placeholder="Nhập tên hoặc SĐT..."></asp:TextBox>
+            <asp:Button ID="btnTimKiem" runat="server" Text="Tìm kiếm" CssClass="btn-search" OnClick="btnTimKiem_Click" />
+        </div>
+    </div>
     
     <div style="text-align: center; margin-bottom: 10px;">
         <asp:Label ID="lblMessage" runat="server" Font-Bold="True"></asp:Label>

@@ -14,17 +14,29 @@ namespace QLNhanSu
         {
             if (!IsPostBack)
             {
-                LoadDataKhachHang();
+                LoadDataKhachHang("");
             }
         }
 
-        private void LoadDataKhachHang()
+        private void LoadDataKhachHang(string keyword)
         {
             using (SqlConnection con = new SqlConnection(connstring))
             {
                 con.Open();
-                string sql = "SELECT HovaTen, SoDienThoai, MaSan, NgayDat, ThoiGianBatDau, ThoiGianKetThuc, TongTien FROM DatSan";
-                SqlDataAdapter da = new SqlDataAdapter(sql, con);
+                string sql = "SELECT HovaTen, SoDienThoai, MaSan, NgayDat, ThoiGianBatDau, ThoiGianKetThuc, TongTien FROM DatSan WHERE 1=1";
+
+                if (!string.IsNullOrEmpty(keyword))
+                {
+                    sql += " AND (HovaTen LIKE @Keyword OR SoDienThoai LIKE @Keyword)";
+                }
+
+                SqlCommand cmd = new SqlCommand(sql, con);
+                if (!string.IsNullOrEmpty(keyword))
+                {
+                    cmd.Parameters.AddWithValue("@Keyword", "%" + keyword.Trim() + "%");
+                }
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
 
@@ -33,18 +45,26 @@ namespace QLNhanSu
             }
         }
 
+        // Sự kiện click nút Tìm kiếm
+        protected void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            string keyword = txtTimKiem.Text.Trim();
+            gvKhachHang.EditIndex = -1; // Reset lại trạng thái sửa nếu đang mở
+            LoadDataKhachHang(keyword);
+        }
+
         // 1. Nhấn nút Sửa
         protected void gvKhachHang_RowEditing(object sender, GridViewEditEventArgs e)
         {
             gvKhachHang.EditIndex = e.NewEditIndex;
-            LoadDataKhachHang();
+            LoadDataKhachHang(txtTimKiem.Text.Trim());
         }
 
         // 2. Nhấn nút Hủy
         protected void gvKhachHang_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
         {
             gvKhachHang.EditIndex = -1;
-            LoadDataKhachHang();
+            LoadDataKhachHang(txtTimKiem.Text.Trim());
         }
 
         // 3. Nhấn nút Cập nhật
@@ -89,7 +109,7 @@ namespace QLNhanSu
             gvKhachHang.EditIndex = -1;
             lblMessage.Text = "Cập nhật thành công!";
             lblMessage.ForeColor = System.Drawing.Color.Green;
-            LoadDataKhachHang();
+            LoadDataKhachHang(txtTimKiem.Text.Trim());
         }
 
         // 4. Nhấn nút Xóa
@@ -110,7 +130,7 @@ namespace QLNhanSu
 
             lblMessage.Text = "Xóa thành công!";
             lblMessage.ForeColor = System.Drawing.Color.Red;
-            LoadDataKhachHang();
+            LoadDataKhachHang(txtTimKiem.Text.Trim());
         }
     }
 }
